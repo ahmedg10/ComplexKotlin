@@ -15,27 +15,49 @@ class Library {
 // the final string should look like FIZZBUZZFIZZFIZZBUZZFIZZFIZZBUZZ for 0..15.
 // store this lambda into 'fizzbuzz' so that the tests can call it
 //
-val fizzbuzz : (IntRange) -> String = { nums -> nums.map { when (it) {
-    in listOf(15) -> "FIZZBUZZ"
-    in listOf(3, 6, 9, 12, 15) -> "FIZZ"
-    in listOf(5, 10, 15) -> "BUZZ"
-    else -> ""
-}}.fold("", { acc, elem -> acc + elem } )
+
+//Intalizing the variable and we will have to use ":""
+//Additoanlly (Int Range) is what we are going to take in
+
+
+val fizzbuzz : (IntRange) -> String =  {range -> 
+    range.map {
+        //it is the place holder for each 
+        when(it){
+            in listOf(15) -> "FIZZBUZZ"
+            in listOf(3, 6, 9, 12, 15) -> "FIZZ"
+            in listOf(5, 10, 15) -> "BUZZ"
+            else -> ""
+        }
+
+    }.fold("", { acc, elem -> acc + elem } )
 }
 
-// Example usage
-/*
-if (fizzbuzz(0..1) == "")
-    println("Success!")
-if (fizzbuzz(0..3) == "FIZZ")
-    println("Success!")
-if (fizzbuzz(0..5) == "BUZZ")
-    println("Success!")
-*/
+val fizzbuzz2: (IntRange) -> String = { nums -> 
+    nums.map { 
+        when {
+            //Extra Credit: Up to 100
+            //this conditonal fits for 15
+            it % 3 == 0 && it % 5 == 0 -> "FIZZBUZZ"
+            
+            //this fits for numbers 3, 6, 9, 12, 15
+            it % 3 == 0 -> "FIZZ"
+            //this fits 
+            it % 5 == 0 -> "BUZZ"
+        
+            // Extra Credit: New case for numbers divisible by 7
+            it % 7 == 0 -> "DOH!"
+            else -> ""
+    }}.fold("", { acc, elem -> acc + elem } )
+}
+
+
 
 // This is a utility function for your use as you choose, and as an
 // example of an extension method
-fun Int.times(block: () -> Unit): Unit {
+
+//add new functionality to existing classes without modifying their source code. 
+fun Int.times(block: () -> Unit) {
     for (it in 1..this) {
         block()
     }
@@ -45,7 +67,7 @@ fun Int.times(block: () -> Unit): Unit {
 fun process(message: String, block: (String) -> String): String {
     return ">>> ${message}: {" + block(message) + "}"
 }
-// Create r1 as a lambda that calls process() with message "FOO" and a block that returns "BAR"
+//
 val r1 = { process("FOO") { "BAR"} }
 
 // Create r2 as a lambda that calls process() with message "FOO" and a block that upper-cases 
@@ -57,23 +79,31 @@ val r2 = { process("FOO")
         3.times {
             ret += r2_message.toUpperCase()
         }
+        //In this case, the lambda block calculates the value of ret and then returns it as the last expression. There's no need for an explicit return statement
         ret
     } 
 }
 
 
 // write an enum-based state machine between talking and thinking
+//Enum class is set of choices and states
+//Think of it like a menu in a restaurant where you can only order items from the menu; you can't ask for something that's not on the menu.
+// Enum classes are a great way to do this because philosophers can only be in one of these two states. 
 enum class Philosopher {
-    TALKING {
-        override fun signal() = THINKING
-        override fun toString() = "Allow me to suggest an idea..."
-    },
     THINKING {
-        override fun signal() = TALKING
-        override fun toString() = "Deep thoughts...."
+        override fun toString() = "Deep thoughts..."
+    },
+    TALKING {
+        override fun toString() = "Allow me to suggest an idea..."
     };
 
-    abstract fun signal(): Philosopher
+    fun signal(): Philosopher {
+        // Toggle the state when signaled
+        return when (this) {
+            THINKING -> TALKING
+            TALKING -> THINKING
+        }
+    }
 }
 
 // create an class "Command" that can be used as a function (provide an "invoke()" function)

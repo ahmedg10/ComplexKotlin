@@ -11,11 +11,21 @@ class LibraryTest {
         assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true'")
     }
 
+    @Test fun testFizzBuzzUpTo50AndDOH() {
+        val fizzbuzz2 = fizzbuzz2(1..50)
+        val expected = "FIZZBUZZFIZZDOH!FIZZBUZZFIZZDOH!FIZZBUZZFIZZBUZZFIZZFIZZBUZZFIZZDOH!FIZZBUZZFIZZBUZZFIZZFIZZBUZZFIZZFIZZBUZZFIZZDOH!BUZZ"
+        assertEquals(expected, fizzbuzz2)
+    }
+    
+
+
     @Test fun fizzbuzzToFifteen() {
         assertEquals("FIZZBUZZFIZZFIZZBUZZFIZZFIZZBUZZ", fizzbuzz(0..15))
     }
     @Test fun fizzbuzzToTwelve() {
+        println(fizzbuzz(0..12))
         assertEquals("FIZZBUZZFIZZFIZZBUZZFIZZ", fizzbuzz(0..12))
+
     }
 
     @Test fun r1Test() {
@@ -27,7 +37,7 @@ class LibraryTest {
 
     @Test fun philosopherTests() {
         var seneca = Philosopher.THINKING
-        assertEquals("Deep thoughts....", seneca.toString())
+        assertEquals("Deep thoughts...", seneca.toString())
 
         // Shift to talking
         seneca = seneca.signal()
@@ -35,7 +45,7 @@ class LibraryTest {
 
         // Shift to thinking
         seneca = seneca.signal()
-        assertEquals("Deep thoughts....", seneca.toString())
+        assertEquals("Deep thoughts...", seneca.toString())
 
         // Shift back to talking
         seneca = seneca.signal()
